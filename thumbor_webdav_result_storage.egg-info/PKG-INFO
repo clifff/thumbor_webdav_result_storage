@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: thumbor-webdav-result-storage
+Version: 1
+Summary: Thumbor extension to use WebDAV for result storage
+Home-page: UNKNOWN
+Author: Clif Reeder
+Author-email: clifreeder@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires: dateutil
+Requires: thumbor

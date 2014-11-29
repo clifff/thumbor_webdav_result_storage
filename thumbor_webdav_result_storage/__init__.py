@@ -1,0 +1,47 @@
+#coding: utf-8
+
+from thumbor.result_storages import BaseStorage
+from tornado.httpclient import AsyncHTTPClient
+
+class Storage(BaseStorage):
+
+  def __init__(self, context):
+      BaseStorage.__init__(self, context)
+
+  def put(self, bytes):
+      normalized_path = self.normalize_path(self.context.request.url)
+      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
+      logger.debug("[RESULT_STORAGE] Making PUT request to: %s", uri)
+      http_client = AsyncHTTPClient()
+      http_client.fetch(uri, _handle_put_request, method='PUT')
+
+  def _handle_put_request(response):
+    if response.error:
+        logger.error("[RESULT_STORAGE] Error on PUT request: %s", response.error)
+        return None
+    else:
+        logger.debug("[RESULT_STORAGE] Success on PUT request!")
+        return None
+
+  def get(self):
+      normalized_path = self.normalize_path(self.context.request.url)
+      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
+      logger.debug("[RESULT_STORAGE] Making GET request to: %s", uri)
+      http_client = AsyncHTTPClient()
+      http_client.fetch(uri, _handle_get_request)
+
+  def _handle_get_request(response):
+    if response.error:
+        logger.debug("[RESULT_STORAGE] Error on GET request: %s", response.error)
+        return None
+    else:
+        logger.debug("[RESULT_STORAGE] Success on GET request!")
+        return response.body
+
+  def normalize_path(self, path):
+      root_path = self.context.config.get('RESULT_STORAGE_WEBDAV_ROOT_PATH', default='/')
+      path_segments = [path]
+      if self.is_auto_webp:
+          path_segments.append("webp")
+      digest = hashlib.sha1(".".join(path_segments).encode('utf-8')).hexdigest()
+      return os.path.join(root_path, digest)
