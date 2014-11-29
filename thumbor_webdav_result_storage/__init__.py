@@ -19,7 +19,7 @@ class Storage(BaseStorage):
 
   def put(self, bytes):
       normalized_path = self.normalize_path(self.context.request.url)
-      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
+      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_URI') + normalized_path
       logger.debug("[RESULT_STORAGE] Making PUT request to: %s", uri)
       http_client = HTTPClient()
       response = http_client.fetch(uri, method='PUT')
