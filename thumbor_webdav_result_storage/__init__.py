@@ -3,8 +3,7 @@
 from thumbor.result_storages import BaseStorage
 from thumbor.utils import logger
 
-from tornado.httpclient import HTTPClient
-
+import tornado.httpclient
 import hashlib
 import os
 
@@ -21,7 +20,7 @@ class Storage(BaseStorage):
       normalized_path = self.normalize_path(self.context.request.url)
       uri = self.context.config.get('RESULT_STORAGE_WEBDAV_URI') + normalized_path
       logger.debug("[RESULT_STORAGE] Making PUT request to: %s", uri)
-      http_client = HTTPClient()
+      http_client = httpclient.HTTPClient()
       try:
           response = http_client.fetch(uri, method='PUT')
           logger.debug("[RESULT_STORAGE] Success on PUT request!")
@@ -32,7 +31,7 @@ class Storage(BaseStorage):
       normalized_path = self.normalize_path(self.context.request.url)
       uri = self.context.config.get('RESULT_STORAGE_WEBDAV_URI') + normalized_path
       logger.debug("[RESULT_STORAGE] Making GET request to: %s", uri)
-      http_client = HTTPClient()
+      http_client = httpclient.HTTPClient()
       result = None
       try:
           response = http_client.fetch(uri)
