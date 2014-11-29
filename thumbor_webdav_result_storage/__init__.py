@@ -8,6 +8,10 @@ class Storage(BaseStorage):
   def __init__(self, context):
       BaseStorage.__init__(self, context)
 
+  @property
+  def _is_auto_webp(self):
+      return self.context.config.AUTO_WEBP and self.context.request.accepts_webp
+
   def put(self, bytes):
       normalized_path = self.normalize_path(self.context.request.url)
       uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
@@ -41,7 +45,7 @@ class Storage(BaseStorage):
   def normalize_path(self, path):
       root_path = self.context.config.get('RESULT_STORAGE_WEBDAV_ROOT_PATH', default='/')
       path_segments = [path]
-      if self.is_auto_webp:
+      if self._is_auto_webp:
           path_segments.append("webp")
       digest = hashlib.sha1(".".join(path_segments).encode('utf-8')).hexdigest()
       return os.path.join(root_path, digest)
