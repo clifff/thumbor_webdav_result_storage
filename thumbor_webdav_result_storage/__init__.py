@@ -23,7 +23,7 @@ class Storage(BaseStorage):
       logger.debug("[RESULT_STORAGE] Making PUT request to: %s", uri)
       http_client = HTTPClient()
       try:
-          response = http_client.fetch(uri, method='PUT')
+          response = http_client.fetch(uri, method='PUT', body=bytes)
           logger.debug("[RESULT_STORAGE] Success on PUT request!")
       except HTTPError as e:
           logger.error("[RESULT_STORAGE] Error on PUT request: %s", e)
