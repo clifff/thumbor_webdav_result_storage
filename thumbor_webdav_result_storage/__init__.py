@@ -1,6 +1,8 @@
 #coding: utf-8
 
 from thumbor.result_storages import BaseStorage
+from thumbor.utils import logger
+
 from tornado.httpclient import AsyncHTTPClient
 
 import hashlib
