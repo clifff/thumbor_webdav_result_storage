@@ -3,6 +3,8 @@
 from thumbor.result_storages import BaseStorage
 from tornado.httpclient import AsyncHTTPClient
 
+import hashlib
+
 class Storage(BaseStorage):
 
   def __init__(self, context):
