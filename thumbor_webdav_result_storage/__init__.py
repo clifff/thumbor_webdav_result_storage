@@ -32,7 +32,7 @@ class Storage(BaseStorage):
 
   def get(self):
       normalized_path = self.normalize_path(self.context.request.url)
-      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
+      uri = self.context.config.get('RESULT_STORAGE_WEBDAV_URI') + normalized_path
       logger.debug("[RESULT_STORAGE] Making GET request to: %s", uri)
       http_client = HTTPClient()
       response = http_client.fetch(uri)
@@ -44,7 +44,7 @@ class Storage(BaseStorage):
           return response.body
 
   def normalize_path(self, path):
-      root_path = self.context.config.get('RESULT_STORAGE_WEBDAV_ROOT_PATH', default='/')
+      root_path = '/'
       path_segments = [path]
       if self._is_auto_webp:
           path_segments.append("webp")
