@@ -22,7 +22,7 @@ class Storage(BaseStorage):
       uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
       logger.debug("[RESULT_STORAGE] Making PUT request to: %s", uri)
       http_client = HTTPClient()
-      response = http_client.fetch(uri, _handle_put_request, method='PUT')
+      response = http_client.fetch(uri, method='PUT')
       if response.error:
           logger.error("[RESULT_STORAGE] Error on PUT request: %s", response.error)
           return None
@@ -35,7 +35,7 @@ class Storage(BaseStorage):
       uri = self.context.config.get('RESULT_STORAGE_WEBDAV_HOST') + normalized_path
       logger.debug("[RESULT_STORAGE] Making GET request to: %s", uri)
       http_client = HTTPClient()
-      response = http_client.fetch(uri, _handle_get_request)
+      response = http_client.fetch(uri)
       if response.error:
           logger.debug("[RESULT_STORAGE] Error on GET request: %s", response.error)
           return None
